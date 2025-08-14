@@ -29,7 +29,8 @@ export default function Usuarios() {
                 {data.map(u => (
                     <li key={u._id} className="py-2">
                         <p className="font-medium">{u.nombre}</p>
-                        <p className="text-sm text-gray-500">{u.email}</p>
+                        <p className="text-sm text-gray-500">email: {u.email}</p>
+                        <p className="text-sm text-gray-500">id: {u._id}</p>
                     </li>
                 ))}
             </ul>

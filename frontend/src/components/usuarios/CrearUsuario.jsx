@@ -10,22 +10,25 @@ export default function CrearUsuarioForm({ onCreated }) {
 
     async function onSubmit(e) {
         e.preventDefault();
+        const form = e.currentTarget;           
         setLoading(true); setError(null); setOut(null);
-        const fd = new FormData(e.currentTarget);
+
+        const fd = new FormData(form);
         const payload = {
             nombre: fd.get('nombre'),
             email: fd.get('email'),
             password: fd.get('password'),
         };
+
         try {
-            const data = await crearUsuario(payload);
+            const data = await crearUsuario(payload);  
             setOut(data);
             onCreated?.(data);
-            e.currentTarget.reset();
+            form?.reset();                         
         } catch (err) {
-        setError(err.message);
+            setError(err.message);
         } finally {
-        setLoading(false);
+            setLoading(false);
         }
     }
 
@@ -72,10 +75,10 @@ export default function CrearUsuarioForm({ onCreated }) {
                 </div>
 
                 <button
-                disabled={loading}
-                className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black/90 disabled:opacity-60"
-                >
-                {loading && <Spinner className="w-4 h-4 mr-2" />} Crear
+                    disabled={loading}
+                    className="inline-flex items-center justify-center rounded-xl bg-gray-900 px-4 py-2 text-sm font-medium text-white hover:bg-black/90 disabled:opacity-60 hover:cursor-pointer"
+                    >
+                    {loading && <Spinner className="w-4 h-4 mr-2" />} Crear
                 </button>
             </form>
         </div>
