@@ -6,6 +6,12 @@ import 'dotenv/config';
 import express from 'express';
 import mongoose from 'mongoose';
 
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
+// Backend
 import conectarDB from './backend/db/config.js';
 import { cargarDatosDePrueba } from './backend/db/seeders.js';
 
@@ -21,7 +27,7 @@ const PORT = process.env.PORT || 3000;
 
 // Middlewares
 app.use(express.json());
-app.use(cors({ origin: ['http://localhost:3001'] }));
+app.use(cors({ origin: ['http://localhost:3001'] })); // front Next en 3001
 
 const swaggerSpec = swaggerJSDoc({
   definition: {
@@ -118,27 +124,26 @@ const swaggerSpec = swaggerJSDoc({
       }
     }
   },
-  apis: ['./src/routers/*.js'],
+  // ¡IMPORTANTE! Ruta absoluta a tus routers:
+  apis: [path.join(__dirname, 'backend', 'routers', '**', '*.js')],
 });
-
-
 app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 app.get('/openapi.json', (_req, res) => res.json(swaggerSpec));
 /* --------------------------------------------------- */
 
-// Rutas
+// Rutas API
 app.use('/api/usuarios', usuariosRoutes);
 app.use('/api/recetas',  recetasRoutes);
 
 // Healthcheck
 app.get('/health', (_req, res) => res.json({ ok: true }));
 
-// 404 (siempre al final, después de Swagger y las rutas)
+// 404 (después de Swagger y rutas)
 app.use((req, res) => {
   res.status(404).json({ error: `Ruta no encontrada: ${req.method} ${req.originalUrl}` });
 });
 
-// Errores (después del 404)
+// Errores
 app.use(errorHandler);
 
 // ---------- Validación BD + seed ----------
