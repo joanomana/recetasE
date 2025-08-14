@@ -1,12 +1,12 @@
-const bcrypt = require('bcrypt');
-const mongoose = require('mongoose');
-const Usuario = require('../models/Usuario');
-const Receta = require('../models/Receta');
+import bcrypt from 'bcrypt';
+import mongoose from 'mongoose';
+import Usuario from '../models/Usuario.js';
+import Receta from '../models/Receta.js';
 
 const isId = (id) => mongoose.isValidObjectId(id);
 
 // POST /api/usuarios
-exports.crearUsuario = async (req, res, next) => {
+export const crearUsuario = async (req, res, next) => {
     try {
         const { nombre, email, password } = req.body;
         if (!nombre || !email || !password) {
@@ -22,7 +22,7 @@ exports.crearUsuario = async (req, res, next) => {
 };
 
 // GET /api/usuarios
-exports.listarUsuarios = async (_req, res, next) => {
+export const listarUsuarios = async (_req, res, next) => {
     try {
         const usuarios = await Usuario.find().lean();
         res.json(usuarios);
@@ -30,7 +30,7 @@ exports.listarUsuarios = async (_req, res, next) => {
 };
 
 // GET /api/usuarios/:id
-exports.obtenerUsuario = async (req, res, next) => {
+export const obtenerUsuario = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -41,7 +41,7 @@ exports.obtenerUsuario = async (req, res, next) => {
 };
 
 // PUT /api/usuarios/:id
-exports.actualizarUsuario = async (req, res, next) => {
+export const actualizarUsuario = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -59,7 +59,7 @@ exports.actualizarUsuario = async (req, res, next) => {
 };
 
 // DELETE /api/usuarios/:id
-exports.eliminarUsuario = async (req, res, next) => {
+export const eliminarUsuario = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -73,7 +73,7 @@ exports.eliminarUsuario = async (req, res, next) => {
 };
 
 // GET /api/usuarios/:id/recetas
-exports.listarRecetasDeUsuario = async (req, res, next) => {
+export const listarRecetasDeUsuario = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });

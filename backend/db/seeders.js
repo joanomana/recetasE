@@ -1,7 +1,6 @@
-// seeds/cargarDatosDePrueba.js
-const bcrypt = require('bcrypt');
-const Usuario = require('../models/Usuario');
-const Receta = require('../models/Receta');
+import bcrypt from 'bcrypt';
+import Usuario from '../models/Usuario.js';
+import Receta from '../models/Receta.js';
 
 function ing(nombre, cantidad, unidad) {
     return {
@@ -106,5 +105,5 @@ async function cargarDatosDePrueba({ force = false } = {}) {
     console.log('✅ Datos de prueba (Usuarios y Recetas) cargados exitosamente');
 }
 
-module.exports = { cargarDatosDePrueba };
+export { cargarDatosDePrueba };
 

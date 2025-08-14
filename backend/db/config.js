@@ -1,5 +1,5 @@
-require('dotenv').config();
-const mongoose = require('mongoose');
+import 'dotenv/config';
+import mongoose from 'mongoose';
 
 const conectarDB = async () => {
     const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/Recetario'; 
@@ -13,4 +13,4 @@ const conectarDB = async () => {
     }
 };
 
-module.exports = conectarDB;
+export default conectarDB;

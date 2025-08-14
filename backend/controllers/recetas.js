@@ -1,6 +1,6 @@
-const mongoose = require('mongoose');
-const Receta = require('../models/Receta');
-const Usuario = require('../models/Usuario');
+import mongoose from 'mongoose';
+import Usuario from '../models/Usuario.js';
+import Receta from '../models/Receta.js';
 
 const isId = (id) => mongoose.isValidObjectId(id);
 const normalizaIng = ({ nombre, cantidad, unidad }) => ({
@@ -11,7 +11,7 @@ const normalizaIng = ({ nombre, cantidad, unidad }) => ({
 });
 
 // POST /api/recetas
-exports.crearReceta = async (req, res, next) => {
+export const crearReceta = async (req, res, next) => {
     try {
         const { nombre, instrucciones, autor, ingredientes = [] } = req.body;
         if (!nombre || !instrucciones || !autor) {
@@ -36,7 +36,7 @@ exports.crearReceta = async (req, res, next) => {
 };
 
 // GET /api/recetas   (opcional: ?ingrediente=pollo  | ?autor=<id>)
-exports.listarRecetas = async (req, res, next) => {
+export const listarRecetas = async (req, res, next) => {
     try {
         const { ingrediente, autor } = req.query;
         const filtro = {};
@@ -48,7 +48,7 @@ exports.listarRecetas = async (req, res, next) => {
 };
 
 // GET /api/recetas/:id
-exports.obtenerReceta = async (req, res, next) => {
+export const obtenerReceta = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -59,7 +59,7 @@ exports.obtenerReceta = async (req, res, next) => {
 };
 
 // PUT /api/recetas/:id   (solo título/descr segun requisito)
-exports.actualizarReceta = async (req, res, next) => {
+export const actualizarReceta = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -78,7 +78,7 @@ exports.actualizarReceta = async (req, res, next) => {
 };
 
 // DELETE /api/recetas/:id
-exports.eliminarReceta = async (req, res, next) => {
+export const eliminarReceta = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -90,7 +90,7 @@ exports.eliminarReceta = async (req, res, next) => {
 };
 
 // POST /api/recetas/:id/ingredientes
-exports.agregarIngredientes = async (req, res, next) => {
+export const agregarIngredientes = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -111,7 +111,7 @@ exports.agregarIngredientes = async (req, res, next) => {
 };
 
 // GET /api/recetas/:id/ingredientes
-exports.listarIngredientes = async (req, res, next) => {
+export const listarIngredientes = async (req, res, next) => {
     try {
         const { id } = req.params;
         if (!isId(id)) return res.status(400).json({ error: 'ID inválido' });
@@ -123,7 +123,7 @@ exports.listarIngredientes = async (req, res, next) => {
 };
 
 // DELETE /api/recetas/:id/ingredientes/:ingredienteId
-exports.eliminarIngrediente = async (req, res, next) => {
+export const eliminarIngrediente = async (req, res, next) => {
     try {
         const { id, ingredienteId } = req.params;
         if (!isId(id) || !isId(ingredienteId)) return res.status(400).json({ error: 'ID inválido' });
@@ -140,7 +140,7 @@ exports.eliminarIngrediente = async (req, res, next) => {
 };
 
 // GET /api/recetas/buscar?ingrediente=pollo
-exports.buscarPorIngrediente = async (req, res, next) => {
+export const buscarPorIngrediente = async (req, res, next) => {
     try {
         const { ingrediente } = req.query;
         if (!ingrediente) return res.status(400).json({ error: 'Falta query "ingrediente"' });

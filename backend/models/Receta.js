@@ -1,11 +1,11 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 
 const IngredienteSchema = new mongoose.Schema({
     nombre: { type: String, required: true, trim: true },
     cantidad: { type: String, trim: true }, 
     unidad:   { type: String, trim: true }, 
-    slug:     { type: String, index: true }
+    slug: { type: String }
 }, { _id: true });
 
 
@@ -44,3 +44,6 @@ const RecetaSchema = new mongoose.Schema({
 
 RecetaSchema.index({ 'ingredientes.slug': 1 });
 RecetaSchema.index({ autor: 1, nombre: 1 });
+
+
+export default mongoose.model('Receta', RecetaSchema);
